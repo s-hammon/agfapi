@@ -1,6 +1,6 @@
 # agfapi
 
-A command‑line and Go library tool for interacting with the AGFA FHIR API.
+A command‑line and Go library tool for interacting with the Agfa FHIR API.
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ A command‑line and Go library tool for interacting with the AGFA FHIR API.
 
 ## Overview
 
-agfapi is a Go‑based tool that provides both a CLI and a library for interacting with an AGFA FHIR service. The aim is to simplify making API calls, handle authentication, and integrate with your Go applications or pipelines.
+agfapi is a Go‑based tool that provides both a CLI and a library for interacting with an Agfa FHIR service. The aim is to simplify making API calls, handle authentication, and integrate with your Go applications or pipelines.
 
 ## Features
 
@@ -47,7 +47,7 @@ WIP
 
 ## Environment
 
-The base URL for your AGFA service should be assigned to an `AGFA_URL` environment variable:
+The base URL for your Agfa service should be assigned to an `AGFA_URL` environment variable:
 
 ```bash
 export AGFA_URL=https://your.agfa-url.com/fhir/r4
