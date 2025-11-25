@@ -1,10 +1,23 @@
-package main
+package agfa
 
 import (
 	"strings"
 
 	"github.com/s-hammon/p"
 )
+
+type List struct {
+	Code         Code
+	Entry        []ListEntry
+	Extension    []Extension
+	Id           string
+	Identifier   []ResourceIdentifier
+	Meta         ResourceMeta
+	Mode         string
+	ResourceType string
+	Status       string
+	Title        string
+}
 
 type Bundle struct {
 	ResourceType string
@@ -14,8 +27,18 @@ type Bundle struct {
 	Entry        []BundleEntry
 }
 
-func (b *Bundle) String() string {
+func (b Bundle) String() string {
 	return p.Format("resource=%s, type=%s, total=%d\n", b.ResourceType, b.Type, b.Total)
+}
+
+func (b Bundle) Entries() []ListEntry {
+	for _, entry := range b.Entry {
+		if entry.Resource.ResourceType == "List" {
+			return entry.Resource.Entry
+		}
+	}
+
+	return nil
 }
 
 type BundleLink struct {
@@ -91,9 +114,6 @@ func (list ListResource) String() string {
 	sb.WriteString(p.Format("status=%s\n", list.Status))
 	sb.WriteString(p.Format("mode=%s\n", list.Mode))
 	sb.WriteString(list.Code.String())
-	// for _, entry := range list.Entry {
-	// 	sb.WriteString(entry.String())
-	// }
 
 	return sb.String()
 }
@@ -136,6 +156,14 @@ type ListEntryItem struct {
 	Reference string
 }
 
+func (le ListEntryItem) IsTask() bool {
+	return strings.HasPrefix(le.Reference, "Task/")
+}
+
+func (le ListEntryItem) ExtractTaskId() string {
+	return le.Reference[strings.Index(le.Reference, "/")+1:]
+}
+
 type Task struct {
 	ResourceType string
 	Id           string
@@ -148,6 +176,15 @@ type Task struct {
 	AuthoredOn   string
 	LastModified string
 	Input        []TaskInput
+}
+
+func (t Task) ServiceRequestId() string {
+	if len(t.Input) == 0 {
+		return ""
+	}
+
+	ref := t.Input[0].ValueReference.Reference
+	return ref[strings.Index(ref, "/")+1:]
 }
 
 type Reference struct {
