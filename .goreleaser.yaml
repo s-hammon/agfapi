@@ -10,7 +10,6 @@ builds:
     main: ./cmd/agfapi
     goos:
       - linux
-      - ios
       - windows
     goarch:
       - amd64
