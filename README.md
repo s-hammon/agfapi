@@ -25,7 +25,15 @@ agfapi is a Go‑based tool that provides both a CLI and a library for interacti
 
 ## Installation
 
-### TODO: include binary installs
+Pre-compiled binaries for Windows and Linux are available under [Releases](https://github.com/s-hammon/agfapi/releases).
+
+### Linux
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/s-hammon/agfapi/master/install.sh | sh
+```
+
+Since the above script installs to `/usr/local/bin`, you may need elevated privileges (i.e. `sudo`) to run it.
 
 ### Go (requires 1.25.0+)
 
