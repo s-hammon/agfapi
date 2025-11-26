@@ -28,7 +28,7 @@ if [ ! -d "${bin_dir}" ]; then
 	mkdir -p "${bin_dir}"
 fi
 
-curl --sielnt --show-error --location --fail --location --output "${exe}" "$agfapi_uri"
+curl --silent --show-error --location --fail --location --output "${exe}" "$agfapi_uri"
 chmod +x "${exe}"
 
 echo "agfapi was installed successfully to ${exe}"
