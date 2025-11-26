@@ -1,0 +1,42 @@
+name: agfapi-ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Unit Test
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+      - name: Gofmt
+        run: |
+          if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then
+            gofmt -s -l .
+            echo "Please format Go code using go fmt ./..."
+            exit 1
+          fi
+      - name: Install tparse
+        run: go install github.com/mrfridman/tparse@main
+      - name: Run tests
+        run: |
+          mkdir -p bin
+          go vet ./...
+          go build ./...
+          make test-packages
+      - name: Install gosec
+        run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+      - name: Security check
+        run: make gosec

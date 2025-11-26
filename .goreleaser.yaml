@@ -1,0 +1,19 @@
+version: 2
+project_name: agfapi
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - binary: agfapi
+    main: ./cmd/agfapi
+    goos:
+      - linux
+      - ios
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - "-s -w -X main.version=v{{ .Version }}"

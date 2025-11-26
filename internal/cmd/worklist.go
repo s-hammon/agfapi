@@ -122,5 +122,5 @@ func prettyPrintJson(w io.Writer, obj any) {
 
 func pave() error {
 	dir := filepath.Dir(outputPath)
-	return os.MkdirAll(dir, os.ModePerm)
+	return os.MkdirAll(dir, 0o750)
 }

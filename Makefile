@@ -13,4 +13,16 @@ clean:
 	@rm -rf bin
 	@go mod tidy
 
-.PHONY: clean test build
+gosec:
+	@gosec -terse -exclude=G104 ./...
+
+lint:
+	@golangci-lint run --disable=errcheck --timeout=2m
+
+ready: test lint gosec
+
+test-packages:
+	go test -json $$(go list ./... | grep -v -e /bin -e /cmd -e /vendor -e /internal/api/models) |\
+		tparse --follow -sort=elapsed -trimpath=auto -all
+
+.PHONY: clean test build gosec lint ready
