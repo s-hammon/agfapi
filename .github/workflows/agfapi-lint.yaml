@@ -3,7 +3,7 @@ name: agfapi-lint
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
 
 concurrency:
